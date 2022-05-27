@@ -342,3 +342,25 @@ Some functions accept a bitmask composed by `|`-ing different integer values. `0
 * `int-mask<1, 2, 4>` (accepts values that can be composed using `|` from the given integers, and 0)
 * `int-mask-of<1|2|4>` (the same as above, but writting as a union)
 * `int-mask-of<Foo::INT_*>` (accepts values from all constants on `Foo` that start with `INT_`)
+
+Offset access types
+-------------------------
+
+Offset access types (also known as "indexed access types") allow you to use the type of the value for an offset on a given value, much like in code:
+
+```php
+/**
+ * @template TInput of array<string, mixed>
+ * @template TKey of string
+ * @param TInput $input
+ * @param TKey $offset
+ * @return TInput[TKey]
+ */
+function getOffset(array $input, string $offset): mixed
+{
+	return $input[$offset];
+}
+
+getOffset(['key' => 1], 'key'); // resolves to 1
+getOffset(['key' => 1], 'unkonwn'); // resolves to *ERROR*
+```
